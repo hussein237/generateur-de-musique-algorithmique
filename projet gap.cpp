@@ -1,47 +1,89 @@
-//bibliothèque pour les entrées et sorties des variables
-#include <iostream>
-//bibliothèque pour l'utilisation des tableaux dynamiques
-#include <vector>
-//bibliothèque pour l'utilisation des fonctions  
-#include <cstdlib>
-//bibliothèque contient des définitions de fonctions permettant d'obtenir et de manipuler des informations de date et d'heure.
-#include <ctime>
+#include <iostream>   
+#include <cstdlib>    
+#include <ctime>      
+#include <vector>     
+#include <fstream>    
 
-//fonction pour la generation des notes aléatoires
-std::string notealeatoire(){
-    //liste des notes de base
-		std::vector<std::string>notes= {"A","B","C","D","E","F","G"};
+using namespace std;
 
-	//ajout des bemols et dièses,l'ajout du vide ("") pour plus de combinaisons
-        std::vector<std::string> notessupplementaires= {"","#","b",};
+vector<string> genererNotes(int nombredenotes) {
+    // Liste des notes de musique possibles
+    const char notes[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+    const int numNotes = sizeof(notes) / sizeof(notes[0]);
 
-    //selection aléatoire d'une note de base
-        std::string note = notes[rand() % notes.size()];
+    // Liste des durées de notes de musique possibles
+    const string rythmes[] = {"Noire", "Croche", "Blanche", "Ronde", "Double croche"};
+    const int numRythmes = sizeof(rythmes) / sizeof(rythmes[0]);
 
-    //selection aléatoire des notes supplémentaires
-        std::string notessupplementaire = notessupplementaires[rand() % notessupplementaires.size()];
+    vector<string> suiteDeNotes;
 
-return note +   notessupplementaire ;
-}
+    // Afin de générer une séquence aléatoire
+    for (int i = 0; i < nombredenotes; i++) {
+        char note = notes[rand() % numNotes];       // Sélection aléatoire d'une note
+        int octave = 1 + (rand() % 8);             //Sélection aléatoire d'un octave (1 à 8)
+        string rythme = rythmes[rand() % numRythmes]; // Sélection aléatoire d'un rythme
 
-//Fonction principale
-    int main (){
-
-//initialisation de la selection aléatoire si cette instuction disparait alors il n'y aurait plus de generation aleatoire pour le prochain lancement
-    std::srand(std::time(0));
-
-//interaction avec l'utilisateur
-        int nombrenotes;
-        std::cout << "Combien de notes voulez-vous generer ? ";
-        std::cin >> nombrenotes;
-
-//appel de la fontion et affichage du résultat
-        std::cout << "\n Sequence de notes aleatoires :\n";
-    for (int i = 0; i < nombreDeNotes; ++i) {
-        std::cout << notealeatoire() << " " ;
+        string noteComplete = string(1, note) + to_string(octave) + " - " + rythme;
+        suiteDeNotes.push_back(noteComplete);
     }
 
-        std::cout << "\n";
-	return 0 ;
+    return suiteDeNotes;
+}
 
+// Fonction pour enregistrer la suite dans un fichier texte si voulu
+void enregistrerNotes(const vector<string>& notes) {
+    ofstream fichier("notes.txt");
+
+    if (fichier.is_open()) {
+        for (const string& note : notes) {
+            fichier << note << endl;
+        }
+        fichier.close();
+        cout << "Suite enregistrée dans 'notes.txt'." << endl;
+    } else {
+        cout << "Erreur" << endl;
+    }
+}
+
+int main() {
+    srand(time(0)); // Initialiser le générateur de nombres aléatoires
+
+    bool recommencer = true;
+
+    while (recommencer == true) {
+        int nombredenotes;
+
+        cout << "Combien de notes voulez-vous générer ? ";
+        cin >> nombredenotes;
+
+        // Générer la suite de notes
+        vector<string> notes = genererNotes(nombredenotes);
+
+        // Pour afficher la suite générée
+        cout << "Suite générée :\n";
+        for (const string& note : notes) {
+            cout << note << endl;
+        }
+
+        //Pour demander si l'utilisateur veut enregistrer la suite que nous venons de créer 
+        char choix;
+        cout << "Voulez-vous enregistrer cette suite dans un fichier ? (o/n) ";
+        cin >> choix;
+
+        if (choix == 'o' || choix == 'O') {
+            enregistrerNotes(notes);
+        }
+
+        // Demander si l'utilisateur veut recommencer
+        cout <<"Une nouvelle suite aléatoire ? (o/n)";
+        cin >> choix;
+
+        if (choix == 'n' || choix == 'N') {
+            recommencer = false; }
+        else { recommencer = true; }
+        cout << endl; 
+    }
+
+    cout << "Programme terminé, ce sera tout.\n";
+    return 0;
 }
