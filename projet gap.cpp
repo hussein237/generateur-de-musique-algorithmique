@@ -1,9 +1,8 @@
-#include <iostream>   
+#include <iostream>   
 #include <cstdlib>    
 #include <ctime>      
 #include <vector>     
 #include <fstream>    
-
 using namespace std;
 
 vector<string> genererNotes(int nombredenotes) {
@@ -60,7 +59,7 @@ int main() {
         vector<string> notes = genererNotes(nombredenotes);
 
         // Pour afficher la suite générée
-        cout << "Suite générée :\n";
+        cout << "Voici la suite générée :\n";
         for (const string& note : notes) {
             cout << note << endl;
         }
@@ -73,17 +72,21 @@ int main() {
         if (choix == 'o' || choix == 'O') {
             enregistrerNotes(notes);
         }
+        else { cout <<"Erreur\n";
 
         // Demander si l'utilisateur veut recommencer
         cout <<"Une nouvelle suite aléatoire ? (o/n)";
         cin >> choix;
 
-        if (choix == 'n' || choix == 'N') {
-            recommencer = false; }
-        else { recommencer = true; }
+        if (choix == 'o' || choix == 'O') {
+            recommencer = true; }
+        else { recommencer = false; }
         cout << endl; 
+    }
     }
 
     cout << "Programme terminé, ce sera tout.\n";
     return 0;
 }
+       
+         
