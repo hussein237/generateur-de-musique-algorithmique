@@ -38,7 +38,7 @@ void enregistrerNotes(const vector<string>& notes) {
             fichier << note << endl;
         }
         fichier.close();
-        cout << "Suite enregistrée dans 'notes.txt'." << endl;
+        cout << "Suite enregistree dans 'notes.txt'." << endl;
     } else {
         cout << "Erreur" << endl;
     }
@@ -52,14 +52,14 @@ int main() {
     while (recommencer == true) {
         int nombredenotes;
 
-        cout << "Combien de notes voulez-vous générer ? ";
+        cout << "Combien de notes voulez-vous generer ? ";
         cin >> nombredenotes;
 
         // Générer la suite de notes
         vector<string> notes = genererNotes(nombredenotes);
 
         // Pour afficher la suite générée
-        cout << "Voici la suite générée :\n";
+        cout << "Voici la suite generee :\n";
         for (const string& note : notes) {
             cout << note << endl;
         }
@@ -75,7 +75,7 @@ int main() {
         else { cout <<"Erreur\n";
 
         // Demander si l'utilisateur veut recommencer
-        cout <<"Une nouvelle suite aléatoire ? (o/n)";
+        cout <<"Une nouvelle suite aleatoire ? (o/n)";
         cin >> choix;
 
         if (choix == 'o' || choix == 'O') {
@@ -85,7 +85,7 @@ int main() {
     }
     }
 
-    cout << "Programme terminé, ce sera tout.\n";
+    cout << "Programme termine, ce sera tout.\n";
     return 0;
 }
        
